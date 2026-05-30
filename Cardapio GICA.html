@@ -30,7 +30,6 @@
     padding-bottom: 120px;
   }
 
-  /* ── HERO ── */
   .hero {
     background: linear-gradient(135deg, var(--brown-dark) 0%, var(--brown) 100%);
     padding: 28px 20px 24px;
@@ -49,7 +48,6 @@
   .hero-sub { font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; color: var(--gold-light); margin-top: 4px; position: relative; }
   .hero-tagline { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 12px; position: relative; }
 
-  /* ── NAV TABS ── */
   .nav-tabs {
     display: flex;
     gap: 8px;
@@ -81,14 +79,12 @@
   .tab-btn.active { background: var(--brown); border-color: var(--brown); color: #fff; }
   .tab-btn:hover:not(.active) { border-color: var(--gold); color: var(--brown); }
 
-  /* ── CONTENT ── */
   .content { max-width: 680px; margin: 0 auto; padding: 20px 16px; }
   .section-block { margin-bottom: 28px; }
   .section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
   .section-label span { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--brown); }
   .section-label hr { flex: 1; border: none; height: 1px; background: linear-gradient(to right, rgba(200,147,58,0.4), transparent); }
 
-  /* ── PRODUCT CARDS ── */
   .products-list { display: flex; flex-direction: column; gap: 10px; }
 
   .product-card {
@@ -164,7 +160,6 @@
   }
   .add-btn:hover { background: var(--brown); transform: scale(1.1); }
 
-  /* ── MODAL PRODUTO ── */
   .modal-overlay {
     position: fixed; inset: 0;
     background: rgba(0,0,0,0.55);
@@ -239,7 +234,6 @@
   }
   .modal-add-btn:hover { background: var(--brown-dark); transform: scale(1.02); }
 
-  /* ── CART FAB ── */
   .cart-fab {
     position: fixed; bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(20px);
@@ -265,7 +259,6 @@
     font-size: 13px; font-weight: 800;
   }
 
-  /* ── CART MODAL ── */
   .cart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .cart-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--brown-dark); }
   .cart-close-btn {
@@ -307,7 +300,6 @@
   .empty-cart { text-align: center; padding: 32px 0; color: var(--muted); font-size: 14px; }
   .empty-cart-icon { font-size: 40px; margin-bottom: 10px; }
 
-  /* ── BOLOS ── */
   .bolo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .bolo-card {
     background: linear-gradient(135deg, var(--brown) 0%, var(--brown-dark) 100%);
@@ -346,45 +338,66 @@
 </head>
 <body>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-badge">✦ Artesanal · Feito com amor ✦</div>
   <div class="hero-title">GICA</div>
   <div class="hero-sub">Sabores</div>
-  <div class="hero-tagline">Pães Recheados · Lanches · Bolos</div>
+  <div class="hero-tagline">Pães Recheados · Salgados · Tortas · Bolos</div>
 </div>
 
-<!-- NAV TABS -->
 <div class="nav-tabs" id="navTabs">
   <button class="tab-btn active" data-target="sec-calabresa">🍞 Calabresa</button>
   <button class="tab-btn" data-target="sec-frango">🍗 Frango</button>
   <button class="tab-btn" data-target="sec-especiais">🥖 Especiais</button>
   <button class="tab-btn" data-target="sec-lanches">🥪 Lanches</button>
+  <button class="tab-btn" data-target="sec-salgados-cento">🎉 Salgados (Cento)</button>
+  <button class="tab-btn" data-target="sec-salgados-pacote">📦 Pacotes</button>
+  <button class="tab-btn" data-target="sec-tortas">🥧 Tortas</button>
   <button class="tab-btn" data-target="sec-bolos">🎂 Bolos</button>
 </div>
 
-<!-- CONTENT -->
 <div class="content">
+
   <div class="section-block" id="sec-calabresa">
     <div class="section-label"><span>🍞 Calabresa</span><hr></div>
     <div class="products-list" id="list-calabresa"></div>
   </div>
+
   <div class="section-block" id="sec-frango">
     <div class="section-label"><span>🍗 Frango</span><hr></div>
     <div class="products-list" id="list-frango"></div>
   </div>
+
   <div class="section-block" id="sec-especiais">
     <div class="section-label"><span>🥖 Especiais</span><hr></div>
     <div class="products-list" id="list-especiais"></div>
   </div>
+
   <div class="section-block" id="sec-lanches">
     <div class="section-label"><span>🥪 Lanches</span><hr></div>
     <div class="products-list" id="list-lanches"></div>
   </div>
+
+  <div class="section-block" id="sec-salgados-cento">
+    <div class="section-label"><span>🎉 Salgados por Cento</span><hr></div>
+    <div class="products-list" id="list-salgados-cento"></div>
+  </div>
+
+  <div class="section-block" id="sec-salgados-pacote">
+    <div class="section-label"><span>📦 Salgados em Pacote (25 un)</span><hr></div>
+    <div class="products-list" id="list-salgados-pacote"></div>
+  </div>
+
+  <div class="section-block" id="sec-tortas">
+    <div class="section-label"><span>🥧 Tortas Salgadas</span><hr></div>
+    <div class="products-list" id="list-tortas"></div>
+  </div>
+
   <div class="section-block" id="sec-bolos">
     <div class="section-label"><span>🎂 Bolos Artesanais</span><hr></div>
     <div class="bolo-grid" id="list-bolos"></div>
   </div>
+
 </div>
 
 <!-- MODAL PRODUTO -->
@@ -450,27 +463,56 @@
 const WHATSAPP = '5511998552628';
 
 const products = [
+  // ── CALABRESA ──
   { id:'c1', cat:'calabresa', name:'Calabresa I',    desc:'Calabresa picada, cebola, azeitona e orégano', price:25, emoji:'🍞' },
   { id:'c2', cat:'calabresa', name:'Calabresa II',   desc:'Calabresa picada, cebola, azeitona, orégano e mussarela', price:28, emoji:'🍞' },
   { id:'c3', cat:'calabresa', name:'Calabresa III',  desc:'Calabresa picada, cebola, orégano e catupiry', price:28, emoji:'🍞' },
-  { id:'f1', cat:'frango',    name:'Frango I',       desc:'Frango desfiado, milho, cebola e orégano', price:25, emoji:'🍗' },
-  { id:'f2', cat:'frango',    name:'Frango II',      desc:'Frango desfiado, milho, orégano e mussarela', price:28, emoji:'🍗' },
-  { id:'f3', cat:'frango',    name:'Frango III',     desc:'Frango desfiado, milho, orégano e catupiry', price:28, emoji:'🍗' },
-  { id:'e1', cat:'especiais', name:'Bauru',          desc:'Queijo mussarela, presunto e tomate', price:28, emoji:'🥖' },
-  { id:'e2', cat:'especiais', name:'Portuguesa',     desc:'Presunto, ovos, cebola, ervilha, orégano e mussarela', price:28, emoji:'🥖' },
-  { id:'e3', cat:'especiais', name:'Frios',          desc:'Presunto, mortadela e mussarela', price:28, emoji:'🥖' },
-  { id:'l1', cat:'lanches',   name:'Lanche de Frango', desc:'Patê de frango desfiado com maionese, cenoura, milho, tomate, alface e orégano', price:15, emoji:'🥪' },
-  { id:'l2', cat:'lanches',   name:'Lanche de Frios',  desc:'Presunto, queijo mussarela com maionese, tomate e alface', price:15, emoji:'🥪' },
-  { id:'b1', cat:'bolos', name:'Bolo de Limão',      desc:'Bolo artesanal de limão', price:30, emoji:'🍋' },
-  { id:'b2', cat:'bolos', name:'Bolo de Morango',    desc:'Bolo artesanal de morango', price:30, emoji:'🍓' },
-  { id:'b3', cat:'bolos', name:'Bolo de Laranja',    desc:'Bolo artesanal de laranja', price:30, emoji:'🍊' },
-  { id:'b4', cat:'bolos', name:'Bolo de Uva',        desc:'Bolo artesanal de uva', price:30, emoji:'🍇' },
-  { id:'b5', cat:'bolos', name:'Bolo de Maracujá',   desc:'Bolo artesanal de maracujá', price:30, emoji:'🌼' },
-  { id:'b6', cat:'bolos', name:'Bolo de Chocolate',  desc:'Bolo artesanal de chocolate', price:30, emoji:'🍫' },
-  { id:'b7', cat:'bolos', name:'Bolo de Côco',       desc:'Bolo artesanal de côco', price:30, emoji:'🥥' },
+  // ── FRANGO ──
+  { id:'f1', cat:'frango', name:'Frango I',    desc:'Frango desfiado, milho, cebola e orégano', price:25, emoji:'🍗' },
+  { id:'f2', cat:'frango', name:'Frango II',   desc:'Frango desfiado, milho, orégano e mussarela', price:28, emoji:'🍗' },
+  { id:'f3', cat:'frango', name:'Frango III',  desc:'Frango desfiado, milho, orégano e catupiry', price:28, emoji:'🍗' },
+  // ── ESPECIAIS ──
+  { id:'e1', cat:'especiais', name:'Bauru',      desc:'Queijo mussarela, presunto e tomate', price:28, emoji:'🥖' },
+  { id:'e2', cat:'especiais', name:'Portuguesa', desc:'Presunto, ovos, cebola, ervilha, orégano e mussarela', price:28, emoji:'🥖' },
+  { id:'e3', cat:'especiais', name:'Frios',      desc:'Presunto, mortadela e mussarela', price:28, emoji:'🥖' },
+  { id:'e4', cat:'especiais', name:'Pão Tradicional', desc:'Pão tradicional sem recheio', price:20, emoji:'🍞' },
+  // ── LANCHES ──
+  { id:'l1', cat:'lanches', name:'Lanche de Frango', desc:'Patê de frango desfiado com maionese, cenoura, milho, tomate, alface e orégano', price:15, emoji:'🥪' },
+  { id:'l2', cat:'lanches', name:'Lanche de Frios',  desc:'Presunto, queijo mussarela com maionese, tomate e alface', price:15, emoji:'🥪' },
+  // ── SALGADOS POR CENTO (~26 a 29g cada) ──
+  { id:'sc1', cat:'salgados-cento', name:'Coxinha (Cento)',         desc:'Salgados de 26 a 29g aproximadamente', price:80, emoji:'🍗' },
+  { id:'sc2', cat:'salgados-cento', name:'Bolinho de Queijo (Cento)', desc:'Salgados de 26 a 29g aproximadamente', price:85, emoji:'🧀' },
+  { id:'sc3', cat:'salgados-cento', name:'Rissoles (Cento)',         desc:'Salgados de 26 a 29g aproximadamente', price:85, emoji:'🌙' },
+  { id:'sc4', cat:'salgados-cento', name:'Bolinho de Carne (Cento)', desc:'Salgados de 26 a 29g aproximadamente', price:90, emoji:'🥩' },
+  { id:'sc5', cat:'salgados-cento', name:'Quibe (Cento)',            desc:'Salgados de 26 a 29g aproximadamente', price:90, emoji:'🫓' },
+  // ── SALGADOS EM PACOTE (25 unidades) ──
+  { id:'sp1', cat:'salgados-pacote', name:'Coxinha (Pacote 25 un)',          desc:'25 unidades de coxinha', price:30, emoji:'🍗' },
+  { id:'sp2', cat:'salgados-pacote', name:'Rissoles (Pacote 25 un)',         desc:'25 unidades de rissoles', price:35, emoji:'🌙' },
+  { id:'sp3', cat:'salgados-pacote', name:'Bolinho de Queijo (Pacote 25 un)', desc:'25 unidades de bolinho de queijo', price:35, emoji:'🧀' },
+  { id:'sp4', cat:'salgados-pacote', name:'Bolinho de Carne (Pacote 25 un)', desc:'25 unidades de bolinho de carne', price:40, emoji:'🥩' },
+  { id:'sp5', cat:'salgados-pacote', name:'Quibe (Pacote 25 un)',            desc:'25 unidades de quibe', price:40, emoji:'🫓' },
+  // ── TORTAS SALGADAS ──
+  { id:'t1', cat:'tortas', name:'Torta de Frango',                   desc:'Frango desfiado, milho, tomate e orégano', price:35, emoji:'🥧' },
+  { id:'t2', cat:'tortas', name:'Torta de Frango com Catupiry',      desc:'Frango desfiado com catupiry cremoso', price:40, emoji:'🥧' },
+  { id:'t3', cat:'tortas', name:'Torta de Frango com Queijo',        desc:'Frango desfiado com queijo mussarela', price:40, emoji:'🥧' },
+  { id:'t4', cat:'tortas', name:'Torta de Palmito',                  desc:'Palmito picado, tomate, cebola, azeitona e orégano', price:40, emoji:'🥧' },
+  { id:'t5', cat:'tortas', name:'Torta de Carne Moída',              desc:'Carne moída, cebola, azeitona e orégano', price:45, emoji:'🥧' },
+  { id:'t6', cat:'tortas', name:'Torta Massa Podre de Frango',       desc:'Massa podre crocante com frango desfiado', price:40, emoji:'🥧' },
+  { id:'t7', cat:'tortas', name:'Torta Massa Podre de Palmito',      desc:'Massa podre crocante com palmito', price:45, emoji:'🥧' },
+  { id:'t8', cat:'tortas', name:'Torta Massa Podre de Carne',        desc:'Massa podre crocante com carne moída', price:50, emoji:'🥧' },
+  // ── BOLOS ──
+  { id:'b1', cat:'bolos', name:'Bolo de Limão',           desc:'Bolo artesanal de limão', price:30, emoji:'🍋' },
+  { id:'b2', cat:'bolos', name:'Bolo de Morango',         desc:'Bolo artesanal de morango', price:30, emoji:'🍓' },
+  { id:'b3', cat:'bolos', name:'Bolo de Laranja',         desc:'Bolo artesanal de laranja', price:30, emoji:'🍊' },
+  { id:'b4', cat:'bolos', name:'Bolo de Uva',             desc:'Bolo artesanal de uva', price:30, emoji:'🍇' },
+  { id:'b5', cat:'bolos', name:'Bolo de Maracujá',        desc:'Bolo artesanal de maracujá', price:30, emoji:'🌼' },
+  { id:'b6', cat:'bolos', name:'Bolo de Chocolate',       desc:'Bolo artesanal de chocolate', price:30, emoji:'🍫' },
+  { id:'b7', cat:'bolos', name:'Bolo de Côco',            desc:'Bolo artesanal de côco', price:30, emoji:'🥥' },
+  { id:'b8', cat:'bolos', name:'Bolo de Fubá',            desc:'Bolo artesanal de fubá', price:25, emoji:'🌽' },
+  { id:'b9', cat:'bolos', name:'Bolo de Fubá com Goiabada', desc:'Bolo artesanal de fubá com goiabada', price:30, emoji:'🌽' },
+  { id:'b10', cat:'bolos', name:'Bolo de Fubá Cremoso',   desc:'Bolo artesanal de fubá cremoso', price:30, emoji:'🌽' },
 ];
 
-// ── CART ──
 let cart = {};
 let modalProduct = null;
 let modalQty = 1;
@@ -502,11 +544,10 @@ function updateCartUI() {
     qty > 0 ? card.classList.add('in-cart') : card.classList.remove('in-cart');
 
     if (p.cat === 'bolos') {
-      // bolo controls
-      const addBtn  = document.getElementById('badd-' + p.id);
-      const qtyRow  = document.getElementById('bqrow-' + p.id);
-      const qtyNum  = document.getElementById('bqnum-' + p.id);
-      const subEl   = document.getElementById('bsub-' + p.id);
+      const addBtn = document.getElementById('badd-' + p.id);
+      const qtyRow = document.getElementById('bqrow-' + p.id);
+      const qtyNum = document.getElementById('bqnum-' + p.id);
+      const subEl  = document.getElementById('bsub-' + p.id);
       if (qty > 0) {
         addBtn.style.display = 'none';
         qtyRow.classList.add('show');
@@ -545,12 +586,11 @@ function setCartQty(id, qty) {
 }
 function changeQty(id, delta) { setCartQty(id, (cart[id] || 0) + delta); }
 
-// ── RENDER PRODUCTS ──
 function renderProducts() {
-  const cats = { calabresa:[], frango:[], especiais:[], lanches:[], bolos:[] };
+  const cats = { calabresa:[], frango:[], especiais:[], lanches:[], 'salgados-cento':[], 'salgados-pacote':[], tortas:[], bolos:[] };
   products.forEach(p => cats[p.cat].push(p));
 
-  ['calabresa','frango','especiais','lanches'].forEach(cat => {
+  ['calabresa','frango','especiais','lanches','salgados-cento','salgados-pacote','tortas'].forEach(cat => {
     document.getElementById('list-' + cat).innerHTML = cats[cat].map(p => `
       <div class="product-card" id="card-${p.id}" onclick="openProduct('${p.id}')">
         <div class="product-thumb">${p.emoji}</div>
@@ -590,7 +630,6 @@ function renderProducts() {
   `).join('');
 }
 
-// ── MODAL PRODUTO ──
 function openProduct(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
@@ -639,7 +678,6 @@ document.getElementById('productModal').onclick = e => {
   }
 };
 
-// ── CART MODAL ──
 document.getElementById('cartFab').onclick = openCart;
 document.getElementById('cartCloseBtn').onclick = () => {
   document.getElementById('cartModal').classList.remove('open');
@@ -699,7 +737,6 @@ function cartChange(id, delta) {
   renderCart();
 }
 
-// ── WHATSAPP ──
 document.getElementById('waBtnMain').onclick = () => {
   const items = Object.entries(cart).filter(([,qty]) => qty > 0);
   if (!items.length) return;
@@ -722,7 +759,6 @@ document.getElementById('waBtnMain').onclick = () => {
   window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
 };
 
-// ── TABS ──
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -736,8 +772,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// Highlight tab on scroll
-const sections = ['sec-calabresa','sec-frango','sec-especiais','sec-lanches','sec-bolos'];
+const sections = ['sec-calabresa','sec-frango','sec-especiais','sec-lanches','sec-salgados-cento','sec-salgados-pacote','sec-tortas','sec-bolos'];
 window.addEventListener('scroll', () => {
   const navH = document.getElementById('navTabs').offsetHeight;
   let current = sections[0];
@@ -750,7 +785,6 @@ window.addEventListener('scroll', () => {
   });
 }, { passive: true });
 
-// ── INIT ──
 renderProducts();
 updateCartUI();
 </script>
