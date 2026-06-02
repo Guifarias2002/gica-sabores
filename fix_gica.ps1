@@ -1,4 +1,360 @@
-﻿<!DOCTYPE html>
+# Cole e rode no terminal do VS Code
+$c = @'
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GICA Sabores - Card&#225;pio</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+  :root {
+    --gold: #C9A84C; --gold-light: #F5E6C0; --gold-dark: #8B6914;
+    --brown: #5C3D1E; --cream: #FDF8F0; --dark: #2C1810;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--dark); }
+
+  /* HEADER */
+  .header { background: linear-gradient(135deg, var(--brown) 0%, var(--dark) 100%); padding: 2rem 1rem 1.5rem; text-align: center; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+  .header-content { position: relative; }
+  .logo-circle { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 36px; box-shadow: 0 4px 20px rgba(201,168,76,0.4); }
+  .header h1 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 2rem; letter-spacing: 2px; }
+  .header p { color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* SEARCH */
+  .search-bar { padding: 1rem; background: white; border-bottom: 1px solid var(--gold-light); }
+  .search-bar input { width: 100%; padding: 10px 16px; border: 1px solid var(--gold-light); border-radius: 25px; font-size: 14px; outline: none; background: var(--cream); color: var(--dark); }
+  .search-bar input:focus { border-color: var(--gold); }
+
+  /* CATEGORIES */
+  .categories { display: flex; gap: 8px; padding: 1rem; overflow-x: auto; background: white; border-bottom: 1px solid var(--gold-light); scrollbar-width: none; }
+  .categories::-webkit-scrollbar { display: none; }
+  .cat-btn { padding: 6px 16px; border-radius: 20px; border: 1px solid var(--gold-light); background: white; color: var(--brown); font-size: 13px; cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: 'Lato', sans-serif; }
+  .cat-btn.active { background: var(--gold); border-color: var(--gold); color: white; }
+
+  /* PRODUCTS */
+  .products { padding: 1rem; max-width: 600px; margin: 0 auto; }
+  .category-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--brown); margin: 1.5rem 0 0.75rem; padding-bottom: 6px; border-bottom: 2px solid var(--gold-light); display: flex; align-items: center; gap: 8px; }
+  .product-card { background: white; border-radius: 12px; padding: 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid transparent; transition: all 0.2s; }
+  .product-card:hover { border-color: var(--gold-light); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .product-info { flex: 1; }
+  .product-name { font-weight: 700; font-size: 14px; color: var(--dark); }
+  .product-desc { font-size: 12px; color: #888; margin-top: 2px; }
+  .product-price { font-weight: 700; color: var(--gold-dark); font-size: 15px; margin-top: 4px; }
+  .product-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .qty-control { display: flex; align-items: center; gap: 8px; }
+  .qty-btn { width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; font-weight: 700; }
+  .qty-btn.minus { background: var(--gold-light); color: var(--gold-dark); }
+  .qty-btn.plus { background: var(--gold); color: white; }
+  .qty-btn:hover { transform: scale(1.1); }
+  .qty-num { font-weight: 700; font-size: 15px; min-width: 20px; text-align: center; color: var(--dark); }
+
+  /* CART */
+  .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 1rem; background: white; border-top: 2px solid var(--gold-light); transform: translateY(100%); transition: transform 0.3s; z-index: 50; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); }
+  .cart-bar.visible { transform: translateY(0); }
+  .cart-btn { width: 100%; max-width: 500px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, var(--brown), var(--dark)); color: white; border: none; border-radius: 25px; padding: 14px 20px; cursor: pointer; font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 700; transition: transform 0.15s; }
+  .cart-btn:hover { transform: scale(1.02); }
+  .cart-count { background: var(--gold); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+
+  /* MODAL PEDIDO */
+  .modal { display: none; position: fixed; inset: 0; z-index: 100; }
+  .modal.open { display: flex; }
+  .modal-bg { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+  .modal-box { position: relative; background: var(--cream); width: 100%; max-width: 500px; margin: auto; border-radius: 20px 20px 0 0; max-height: 90vh; overflow-y: auto; padding: 1.5rem; animation: slideUp 0.3s ease; }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--brown); margin-bottom: 1rem; }
+  .cart-items { margin-bottom: 1rem; }
+  .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--gold-light); font-size: 14px; }
+  .cart-item-name { color: var(--dark); font-weight: 600; }
+  .cart-item-detail { color: #888; font-size: 12px; }
+  .cart-item-price { font-weight: 700; color: var(--gold-dark); }
+  .cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; padding: 12px 0; color: var(--dark); border-top: 2px solid var(--gold); margin-bottom: 1.5rem; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { font-size: 12px; font-weight: 700; color: var(--brown); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px; }
+  .form-input { width: 100%; padding: 12px 16px; border: 1px solid var(--gold-light); border-radius: 10px; font-size: 14px; background: white; color: var(--dark); outline: none; font-family: 'Lato', sans-serif; }
+  .form-input:focus { border-color: var(--gold); }
+  .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pay-opt { padding: 10px; border: 2px solid var(--gold-light); border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.2s; font-size: 13px; font-weight: 600; color: var(--brown); background: white; }
+  .pay-opt.selected { border-color: var(--gold); background: var(--gold-light); }
+  .send-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 25px; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-family: 'Lato', sans-serif; margin-top: 1rem; transition: transform 0.15s; }
+  .send-btn:hover { transform: scale(1.02); }
+  .send-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .success-msg { display: none; text-align: center; padding: 2rem; }
+  .success-msg .emoji { font-size: 4rem; margin-bottom: 1rem; }
+  .success-msg h2 { font-family: 'Playfair Display', serif; color: var(--brown); margin-bottom: 0.5rem; }
+  .success-msg p { color: #888; font-size: 14px; }
+
+  .badge-novo { display: inline-block; background: var(--gold); color: white; font-size: 10px; padding: 2px 7px; border-radius: 10px; margin-left: 6px; font-weight: 700; vertical-align: middle; }
+  .empty-cart { text-align: center; padding: 1rem; color: #aaa; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-content">
+    <div class="logo-circle">&#127874;</div>
+    <h1>GICA Sabores</h1>
+    <p>Feito com amor e capricho</p>
+  </div>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="search" placeholder="&#128269;  Buscar produto..." oninput="filterProducts()">
+</div>
+
+<div class="categories" id="categories"></div>
+
+<div class="products" id="products-list"></div>
+
+<div style="height:100px"></div>
+
+<div class="cart-bar" id="cart-bar">
+  <button class="cart-btn" onclick="openCart()">
+    <span>&#128722; Ver pedido</span>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span id="cart-total-bar">R$ 0,00</span>
+      <div class="cart-count" id="cart-count">0</div>
+    </div>
+  </button>
+</div>
+
+<!-- MODAL PEDIDO -->
+<div class="modal" id="modal">
+  <div class="modal-bg" onclick="closeCart()"></div>
+  <div class="modal-box">
+    <div id="modal-content">
+      <div class="modal-title">&#128722; Seu Pedido</div>
+      <div class="cart-items" id="cart-items-list"></div>
+      <div class="cart-total"><span>Total</span><span id="cart-total-modal">R$ 0,00</span></div>
+
+      <div class="form-group">
+        <label class="form-label">Seu nome</label>
+        <input class="form-input" id="f-nome" placeholder="Como voc&#234; se chama?">
+      </div>
+      <div class="form-group">
+        <label class="form-label">WhatsApp</label>
+        <input class="form-input" id="f-tel" placeholder="(11) 99999-9999" type="tel">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Pagamento</label>
+        <div class="payment-options">
+          <div class="pay-opt selected" onclick="selectPay(this,'pix')">&#128179; Pix</div>
+          <div class="pay-opt" onclick="selectPay(this,'dinheiro')">&#128181; Dinheiro</div>
+          <div class="pay-opt" onclick="selectPay(this,'transferencia')">&#127974; Transfer&#234;ncia</div>
+          <div class="pay-opt" onclick="selectPay(this,'cartao')">&#128179; Cart&#227;o</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Observa&#231;&#227;o (opcional)</label>
+        <input class="form-input" id="f-obs" placeholder="Ex: sem cebola, entregar &#224;s 18h...">
+      </div>
+      <button class="send-btn" id="send-btn" onclick="enviarPedido()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.534 5.858L0 24l6.334-1.508A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.655-.52-5.17-1.426l-.37-.22-3.76.895.944-3.656-.242-.376A9.952 9.952 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Enviar pelo WhatsApp
+      </button>
+    </div>
+    <div class="success-msg" id="success-msg">
+      <div class="emoji">&#127881;</div>
+      <h2>Pedido enviado!</h2>
+      <p>Obrigada pelo seu pedido!<br>A Gica vai confirmar em breve.</p>
+      <button class="send-btn" onclick="resetTudo()" style="background:linear-gradient(135deg,var(--brown),var(--dark));margin-top:1rem">Fazer novo pedido</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://ibtomzrzxettpizbpait.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlidG9tenJ6eGV0dHBpemJwYWl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzNTAyNTksImV4cCI6MjA5NTkyNjI1OX0.O_avjNNDxw9_qlsR4wtdpOyHINsc8hJy82wlT0KgtCA';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const WHATSAPP = '5511999999999'; // TROQUE pelo n&#250;mero da Gica com c&#243;digo do pa&#237;s
+
+const PRODUTOS = [
+  { id:1, cat:'&#127838; Salgados Calabresa', nome:'Salgados Calabresa I', preco:25, desc:'Por&#231;&#227;o pequena' },
+  { id:2, cat:'&#127838; Salgados Calabresa', nome:'Salgados Calabresa II', preco:26, desc:'Por&#231;&#227;o m&#233;dia' },
+  { id:3, cat:'&#127838; Salgados Calabresa', nome:'Salgados Calabresa III', preco:28, desc:'Por&#231;&#227;o grande' },
+  { id:4, cat:'&#127831; Salgados Frango', nome:'Salgados Frango I', preco:25, desc:'Por&#231;&#227;o pequena' },
+  { id:5, cat:'&#127831; Salgados Frango', nome:'Salgados Frango II', preco:26, desc:'Por&#231;&#227;o m&#233;dia' },
+  { id:6, cat:'&#127831; Salgados Frango', nome:'Salgados Frango III', preco:28, desc:'Por&#231;&#227;o grande' },
+  { id:7, cat:'&#129366; Especiais', nome:'Bauru', preco:28, desc:'Cl&#225;ssico e saboroso' },
+  { id:8, cat:'&#129366; Especiais', nome:'Portuguesa', preco:28, desc:'Com ingredientes especiais' },
+  { id:9, cat:'&#129366; Especiais', nome:'Frios', preco:28, desc:'Sortido de frios' },
+  { id:10, cat:'&#129386; Lanches', nome:'Lanche Frango', preco:15, desc:'Lanche artesanal' },
+  { id:11, cat:'&#129386; Lanches', nome:'Lanche Frios', preco:15, desc:'Lanche artesanal' },
+  { id:12, cat:'&#127874; Bolos', nome:'Bolo Lim&#227;o', preco:30, desc:'Fofinho e c&#237;trico' },
+  { id:13, cat:'&#127874; Bolos', nome:'Bolo Morango', preco:30, desc:'Com recheio especial' },
+  { id:14, cat:'&#127874; Bolos', nome:'Bolo Laranja', preco:30, desc:'Aroma inconfund&#237;vel' },
+  { id:15, cat:'&#127874; Bolos', nome:'Bolo Uva', preco:30, desc:'Sabor &#250;nico' },
+  { id:16, cat:'&#127874; Bolos', nome:'Bolo Maracuj&#225;', preco:30, desc:'Tropical e delicioso' },
+  { id:17, cat:'&#127874; Bolos', nome:'Bolo Chocolate', preco:30, desc:'O favorito de todos' },
+  { id:18, cat:'&#127874; Bolos', nome:'Bolo C&#244;co', preco:30, desc:'Artesanal e especial' },
+];
+
+let cart = {};
+let payMethod = 'pix';
+let activeCat = 'Todos';
+
+const cats = ['Todos', ...new Set(PRODUTOS.map(p=>p.cat))];
+
+function initCategories() {
+  const el = document.getElementById('categories');
+  el.innerHTML = cats.map(c=>`<button class="cat-btn ${c===activeCat?'active':''}" onclick="filterCat('${c}',this)">${c}</button>`).join('');
+}
+
+function filterCat(cat, el) {
+  activeCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts();
+}
+
+function filterProducts() { renderProducts(); }
+
+function renderProducts() {
+  const search = document.getElementById('search').value.toLowerCase();
+  const filtered = PRODUTOS.filter(p=>{
+    const matchCat = activeCat==='Todos' || p.cat===activeCat;
+    const matchSearch = !search || p.nome.toLowerCase().includes(search) || p.cat.toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+  const grouped = {};
+  filtered.forEach(p=>{ if(!grouped[p.cat]) grouped[p.cat]=[]; grouped[p.cat].push(p); });
+  const el = document.getElementById('products-list');
+  el.innerHTML = Object.entries(grouped).map(([cat,items])=>`
+    <div class="category-title">${cat}</div>
+    ${items.map(p=>`
+      <div class="product-card" id="card-${p.id}">
+        <div class="product-info">
+          <div class="product-name">${p.nome}</div>
+          <div class="product-desc">${p.desc}</div>
+          <div class="product-price">R$ ${p.preco.toFixed(2).replace('.',',')}</div>
+        </div>
+        <div class="product-right">
+          <div class="qty-control">
+            <button class="qty-btn minus" onclick="changeQty(${p.id},-1)">&#8722;</button>
+            <span class="qty-num" id="qty-${p.id}">${cart[p.id]||0}</span>
+            <button class="qty-btn plus" onclick="changeQty(${p.id},1)">+</button>
+          </div>
+        </div>
+      </div>
+    `).join('')}
+  `).join('');
+}
+
+function changeQty(id, delta) {
+  cart[id] = Math.max(0, (cart[id]||0) + delta);
+  const el = document.getElementById('qty-'+id);
+  if(el) el.textContent = cart[id];
+  updateCartBar();
+}
+
+function calcTotal() {
+  return PRODUTOS.reduce((s,p)=>s+(p.preco*(cart[p.id]||0)),0);
+}
+function totalItems() {
+  return Object.values(cart).reduce((s,v)=>s+v,0);
+}
+function fmtMoney(v) { return 'R$ '+v.toFixed(2).replace('.',','); }
+
+function updateCartBar() {
+  const t = totalItems();
+  const bar = document.getElementById('cart-bar');
+  bar.classList.toggle('visible', t>0);
+  document.getElementById('cart-count').textContent = t;
+  document.getElementById('cart-total-bar').textContent = fmtMoney(calcTotal());
+}
+
+function openCart() {
+  renderCartModal();
+  document.getElementById('modal').classList.add('open');
+}
+function closeCart() { document.getElementById('modal').classList.remove('open'); }
+
+function renderCartModal() {
+  const items = PRODUTOS.filter(p=>cart[p.id]>0);
+  const el = document.getElementById('cart-items-list');
+  if(!items.length) { el.innerHTML='<div class="empty-cart">Nenhum item adicionado</div>'; return; }
+  el.innerHTML = items.map(p=>`
+    <div class="cart-item">
+      <div>
+        <div class="cart-item-name">${p.nome}</div>
+        <div class="cart-item-detail">${cart[p.id]}x &#215; R$ ${p.preco.toFixed(2).replace('.',',')}</div>
+      </div>
+      <span class="cart-item-price">${fmtMoney(p.preco*cart[p.id])}</span>
+    </div>
+  `).join('');
+  document.getElementById('cart-total-modal').textContent = fmtMoney(calcTotal());
+}
+
+function selectPay(el, method) {
+  payMethod = method;
+  document.querySelectorAll('.pay-opt').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+async function enviarPedido() {
+  const nome = document.getElementById('f-nome').value.trim();
+  const tel = document.getElementById('f-tel').value.trim();
+  const obs = document.getElementById('f-obs').value.trim();
+  if(!nome) { alert('Por favor informe seu nome!'); return; }
+  const items = PRODUTOS.filter(p=>cart[p.id]>0).map(p=>({nome:p.nome,qty:cart[p.id],preco:p.preco}));
+  if(!items.length) { alert('Adicione pelo menos um item!'); return; }
+
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  // Salvar no Supabase
+  try {
+    await sb.from('pedidos').insert({
+      cliente: nome,
+      telefone: tel,
+      items: items,
+      total: calcTotal(),
+      status: 'pendente',
+      pagamento: payMethod,
+      data_pedido: new Date().toISOString().slice(0,10),
+      obs: obs,
+    });
+  } catch(e) { console.error('Supabase:', e); }
+
+  // Montar mensagem WhatsApp
+  const linhas = items.map(i=>`&#8226; ${i.qty}x ${i.nome} &#8212; ${fmtMoney(i.preco*i.qty)}`).join('\n');
+  const msg = `&#127874; *NOVO PEDIDO - GICA Sabores*\n\n&#128100; *Cliente:* ${nome}${tel?'\n&#128241; *Tel:* '+tel:''}\n\n*Itens:*\n${linhas}\n\n&#128176; *Total: ${fmtMoney(calcTotal())}*\n&#128179; *Pagamento:* ${payMethod.toUpperCase()}${obs?'\n&#128221; *Obs:* '+obs:''}`;
+  const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+
+  document.getElementById('modal-content').style.display = 'none';
+  document.getElementById('success-msg').style.display = 'block';
+}
+
+function resetTudo() {
+  cart = {};
+  document.getElementById('f-nome').value = '';
+  document.getElementById('f-tel').value = '';
+  document.getElementById('f-obs').value = '';
+  document.getElementById('modal-content').style.display = '';
+  document.getElementById('success-msg').style.display = 'none';
+  closeCart();
+  updateCartBar();
+  renderProducts();
+}
+
+initCategories();
+renderProducts();
+</script>
+</body>
+</html>
+
+'@
+[System.IO.File]::WriteAllText("$PWD\Cardapio GICA.html", $c, [System.Text.Encoding]::UTF8)
+Write-Host "[OK] Cardapio GICA.html corrigido" -ForegroundColor Green
+
+$p = @'
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -469,3 +825,10 @@ loadOrders();
 </script>
 </body>
 </html>
+
+'@
+[System.IO.File]::WriteAllText("$PWD\Painel GICA.html", $p, [System.Text.Encoding]::UTF8)
+Write-Host "[OK] Painel GICA.html corrigido" -ForegroundColor Green
+
+Write-Host ""
+Write-Host "Agora rode: git add . && git commit -m fix && git push" -ForegroundColor Yellow
