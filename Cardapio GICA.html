@@ -354,6 +354,7 @@
   <button class="tab-btn" data-target="sec-salgados-pacote">📦 Pacotes</button>
   <button class="tab-btn" data-target="sec-tortas">🥧 Tortas</button>
   <button class="tab-btn" data-target="sec-bolos">🎂 Bolos</button>
+  <button class="tab-btn" data-target="sec-conservas">&#129382; Conservas</button>
 </div>
 
 <div class="content">
@@ -396,6 +397,11 @@
   <div class="section-block" id="sec-bolos">
     <div class="section-label"><span>🎂 Bolos Artesanais</span><hr></div>
     <div class="bolo-grid" id="list-bolos"></div>
+  </div>
+
+  <div class="section-block" id="sec-conservas">
+    <div class="section-label"><span>&#129382; Conservas</span><hr></div>
+    <div class="products-list" id="list-conservas"></div>
   </div>
 
 </div>
@@ -546,6 +552,7 @@ const products = [
   { id:'b14', cat:'bolos', name:'Bolo de Cenoura com Chocolate',       desc:'Bolo de cenoura com cobertura de chocolate', price:30, emoji:'&#129365;' },
   { id:'b15', cat:'bolos', name:'Bolo Pacoca',                         desc:'Bolo artesanal de pacoca', price:30, emoji:'&#129372;' },
   { id:'b16', cat:'bolos', name:'Bolo de Banana Caramelizada',         desc:'Bolo artesanal de banana caramelizada', price:30, emoji:'&#127820;' },
+  { id:'cv1', cat:'conservas', name:'Batata em Conserva', desc:'Batata em conserva caseira - 1Kg', price:25, emoji:'&#129364;' },
 ];
 
 let cart = {};
@@ -622,10 +629,10 @@ function setCartQty(id, qty) {
 function changeQty(id, delta) { setCartQty(id, (cart[id] || 0) + delta); }
 
 function renderProducts() {
-  const cats = { calabresa:[], frango:[], especiais:[], lanches:[], 'salgados-cento':[], 'salgados-pacote':[], tortas:[], bolos:[] };
+  const cats = { calabresa:[], frango:[], especiais:[], lanches:[], 'salgados-cento':[], 'salgados-pacote':[], tortas:[], bolos:[], conservas:[] };
   products.forEach(p => cats[p.cat].push(p));
 
-  ['calabresa','frango','especiais','lanches','salgados-cento','salgados-pacote','tortas'].forEach(cat => {
+  ['calabresa','frango','especiais','lanches','salgados-cento','salgados-pacote','tortas','conservas'].forEach(cat => {
     document.getElementById('list-' + cat).innerHTML = cats[cat].map(p => `
       <div class="product-card" id="card-${p.id}" onclick="openProduct('${p.id}')">
         <div class="product-thumb">${p.emoji}</div>
@@ -831,7 +838,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-const sections = ['sec-calabresa','sec-frango','sec-especiais','sec-lanches','sec-salgados-cento','sec-salgados-pacote','sec-tortas','sec-bolos'];
+const sections = ['sec-calabresa','sec-frango','sec-especiais','sec-lanches','sec-salgados-cento','sec-salgados-pacote','sec-tortas','sec-bolos','sec-conservas'];
 window.addEventListener('scroll', () => {
   const navH = document.getElementById('navTabs').offsetHeight;
   let current = sections[0];
