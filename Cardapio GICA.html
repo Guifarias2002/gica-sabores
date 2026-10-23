@@ -351,7 +351,7 @@
   <button class="tab-btn" data-target="sec-especiais">🥖 Especiais</button>
   <button class="tab-btn" data-target="sec-lanches">🥪 Lanches</button>
   <button class="tab-btn" data-target="sec-salgados-cento">🎉 Salgados (Cento)</button>
-  <button class="tab-btn" data-target="sec-salgados-pacote">📦 Pacotes</button>
+  <button class="tab-btn" data-target="sec-salgados-pacote">🥟 Salgados (Unidade)</button>
   <button class="tab-btn" data-target="sec-tortas">🥧 Tortas</button>
   <button class="tab-btn" data-target="sec-bolos">🎂 Bolos</button>
   <button class="tab-btn" data-target="sec-conservas">&#129382; Conservas</button>
@@ -385,7 +385,7 @@
   </div>
 
   <div class="section-block" id="sec-salgados-pacote">
-    <div class="section-label"><span>📦 Salgados em Pacote (25 un)</span><hr></div>
+    <div class="section-label"><span>🥟 Salgados por Unidade (R$ 1,00 cada)</span><hr></div>
     <div class="products-list" id="list-salgados-pacote"></div>
   </div>
 
@@ -519,15 +519,17 @@ const products = [
   { id:'l1', cat:'lanches', name:'Lanche de Frango', desc:'Pate de frango desfiado com maionese, cenoura, milho, tomate, alface e oregano', price:15, emoji:'&#129386;' },
   { id:'l2', cat:'lanches', name:'Lanche de Frios',  desc:'Presunto, queijo mussarela com maionese, tomate e alface', price:15, emoji:'&#129386;' },
   { id:'sc1', cat:'salgados-cento', name:'Coxinha (Cento)',          desc:'Salgados de 26 a 29g aproximadamente', price:80, emoji:'&#127831;' },
-  { id:'sc2', cat:'salgados-cento', name:'Bolinho de Queijo (Cento)',desc:'Salgados de 26 a 29g aproximadamente', price:85, emoji:'&#127856;' },
-  { id:'sc3', cat:'salgados-cento', name:'Rissoles (Cento)',         desc:'Salgados de 26 a 29g aproximadamente', price:85, emoji:'&#127771;' },
-  { id:'sc4', cat:'salgados-cento', name:'Bolinho de Carne (Cento)', desc:'Salgados de 26 a 29g aproximadamente', price:90, emoji:'&#129385;' },
+  { id:'sc2', cat:'salgados-cento', name:'Bolinho de Queijo (Cento)',desc:'Salgados de 26 a 29g aproximadamente', price:80, emoji:'&#127856;' },
+  { id:'sc3', cat:'salgados-cento', name:'Rissoles (Cento)',         desc:'Salgados de 26 a 29g aproximadamente', price:80, emoji:'&#127771;' },
+  { id:'sc4', cat:'salgados-cento', name:'Bolinho de Carne (Cento)', desc:'Salgados de 26 a 29g aproximadamente', price:80, emoji:'&#129385;' },
   { id:'sc5', cat:'salgados-cento', name:'Quibe (Cento)',            desc:'Salgados de 26 a 29g aproximadamente', price:90, emoji:'&#129385;' },
-  { id:'sp1', cat:'salgados-pacote', name:'Coxinha (Pacote 25 un)',           desc:'25 unidades de coxinha', price:30, emoji:'&#127831;' },
-  { id:'sp2', cat:'salgados-pacote', name:'Rissoles (Pacote 25 un)',          desc:'25 unidades de rissoles', price:35, emoji:'&#127771;' },
-  { id:'sp3', cat:'salgados-pacote', name:'Bolinho de Queijo (Pacote 25 un)', desc:'25 unidades de bolinho de queijo', price:35, emoji:'&#127856;' },
-  { id:'sp4', cat:'salgados-pacote', name:'Bolinho de Carne (Pacote 25 un)',  desc:'25 unidades de bolinho de carne', price:40, emoji:'&#129385;' },
-  { id:'sp5', cat:'salgados-pacote', name:'Quibe (Pacote 25 un)',             desc:'25 unidades de quibe', price:40, emoji:'&#129385;' },
+  { id:'sc6', cat:'salgados-cento', name:'Hamburguinho (Cento)',     desc:'Mini hamburguer - salgados de 26 a 29g aproximadamente', price:80, emoji:'&#127828;' },
+  { id:'su1', cat:'salgados-pacote', name:'Coxinha (Unidade)',           desc:'Venda por unidade - R$ 1,00 cada', price:1, emoji:'&#127831;' },
+  { id:'su2', cat:'salgados-pacote', name:'Bolinho de Queijo (Unidade)', desc:'Venda por unidade - R$ 1,00 cada', price:1, emoji:'&#127856;' },
+  { id:'su3', cat:'salgados-pacote', name:'Rissoles (Unidade)',          desc:'Venda por unidade - R$ 1,00 cada', price:1, emoji:'&#127771;' },
+  { id:'su4', cat:'salgados-pacote', name:'Bolinho de Carne (Unidade)',  desc:'Venda por unidade - R$ 1,00 cada', price:1, emoji:'&#129385;' },
+  { id:'su5', cat:'salgados-pacote', name:'Quibe (Unidade)',             desc:'Venda por unidade - R$ 1,00 cada', price:1, emoji:'&#129385;' },
+  { id:'su6', cat:'salgados-pacote', name:'Hamburguinho (Unidade)',      desc:'Venda por unidade - R$ 1,00 cada', price:1, emoji:'&#127828;' },
   { id:'t1', cat:'tortas', name:'Torta de Frango',              desc:'Frango desfiado, milho, tomate e oregano', price:35, emoji:'&#129383;' },
   { id:'t2', cat:'tortas', name:'Torta Frango com Catupiry',    desc:'Frango desfiado com catupiry cremoso', price:40, emoji:'&#129383;' },
   { id:'t3', cat:'tortas', name:'Torta Frango com Queijo',      desc:'Frango desfiado com queijo mussarela', price:40, emoji:'&#129383;' },
@@ -552,6 +554,9 @@ const products = [
   { id:'b14', cat:'bolos', name:'Bolo de Cenoura com Chocolate',       desc:'Bolo de cenoura com cobertura de chocolate', price:30, emoji:'&#129365;' },
   { id:'b15', cat:'bolos', name:'Bolo Pacoca',                         desc:'Bolo artesanal de pacoca', price:30, emoji:'&#129372;' },
   { id:'b16', cat:'bolos', name:'Bolo de Banana Caramelizada',         desc:'Bolo artesanal de banana caramelizada', price:30, emoji:'&#127820;' },
+  { id:'b17', cat:'bolos', name:'Bolo de Chocolate com Mousse de Ninho',    desc:'Bolo de chocolate com cobertura de mousse de ninho', price:30, emoji:'&#127851;' },
+  { id:'b18', cat:'bolos', name:'Bolo de Chocolate com Mousse de Maracuja', desc:'Bolo de chocolate com cobertura de mousse de maracuja', price:30, emoji:'&#127851;' },
+  { id:'b19', cat:'bolos', name:'Bolo Prestigio',                           desc:'Um delicioso bolo de chocolate com cobertura de beijinho', price:30, emoji:'&#129381;' },
   { id:'cv1', cat:'conservas', name:'Batata em Conserva', desc:'Batata em conserva caseira - 1Kg', price:25, emoji:'&#129364;' },
 ];
 
